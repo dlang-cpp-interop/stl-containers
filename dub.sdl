@@ -1,0 +1,7 @@
+name "stl-containers"
+description "D bindings/wrapper for STL containers"
+authors "Manu"
+copyright "Copyright © 2019, Manu"
+license "MIT"
+targetType "library"
+libs "stdc++"

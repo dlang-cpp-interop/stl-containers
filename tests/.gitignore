@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/stl-containers-tests
+stl-containers-tests.so
+stl-containers-tests.dylib
+stl-containers-tests.dll
+stl-containers-tests.a
+stl-containers-tests.lib
+stl-containers-tests-test-*
+*.exe
+*.o
+*.obj
+*.lst
