@@ -8,5 +8,5 @@ d:
   - dmd-beta
   - ldc-beta
 script:
-  - cd test && dub test
+  - cd tests && dub test
 
