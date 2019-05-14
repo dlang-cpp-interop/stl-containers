@@ -1,0 +1,12 @@
+language: d
+d:
+  - dmd
+  - gdc
+  - ldc
+  - dmd-nightly
+  - ldc-latest-ci
+  - dmd-beta
+  - ldc-beta
+script:
+  - cd test && dub test
+

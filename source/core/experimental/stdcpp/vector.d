@@ -87,7 +87,7 @@ extern(D):
 //    extern(D) this(T[] arr, ref const(allocator_type) al = defaultAlloc)        { this(arr.ptr, arr.ptr + arr.length); }
 //    extern(D) this(const(T)[] arr)                                              { this(arr.ptr, arr.ptr + arr.length); }
 //    extern(D) this(const(T)[] arr, ref const(allocator_type) al = defaultAlloc) { this(arr.ptr, arr.ptr + arr.length); }
-    ~this();
+    //~this();
 
     ref vector opAssign(ref const(vector) s);
 
@@ -141,7 +141,7 @@ extern(D):
         }
 
     private:
-        import core.stdcpp.xutility : MSVCLinkDirectives, _Xlength_error, _Xout_of_range;
+        import core.experimental.stdcpp.xutility : MSVCLinkDirectives, _Xlength_error, _Xout_of_range;
 
         // Make sure the object files wont link against mismatching objects
         mixin MSVCLinkDirectives!true;
@@ -199,7 +199,7 @@ private:
 // platform detail
 version (CppRuntime_Microsoft)
 {
-    import core.stdcpp.xutility : _ITERATOR_DEBUG_LEVEL;
+    import core.experimental.stdcpp.xutility : _ITERATOR_DEBUG_LEVEL;
 
     extern (C++, struct) struct _Vec_base_types(_Ty, _Alloc0)
     {
@@ -209,7 +209,7 @@ version (CppRuntime_Microsoft)
 
     extern (C++, class) struct _Vector_alloc(_Alloc_types)
     {
-        import core.stdcpp.xutility : _Compressed_pair;
+        import core.experimental.stdcpp.xutility : _Compressed_pair;
     nothrow @safe @nogc:
 
         alias Ty = _Alloc_types.Ty;
@@ -229,8 +229,8 @@ version (CppRuntime_Microsoft)
 
     extern (C++, class) struct _Vector_val(T)
     {
-        import core.stdcpp.xutility : _Container_base;
-        import core.stdcpp.type_traits : is_empty;
+        import core.experimental.stdcpp.xutility : _Container_base;
+        import core.experimental.stdcpp.type_traits : is_empty;
 
         static if (!is_empty!_Container_base.value)
         {
