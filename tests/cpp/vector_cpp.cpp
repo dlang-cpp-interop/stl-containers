@@ -6,7 +6,7 @@ int fromC_ref(const std::vector<int>&);
 int sumOfElements_ref(const std::vector<int>& arr)
 {
     int r = 0;
-    for (size_t i = 0; i < arr.size(); ++i)
+    for (std::size_t i = 0; i < arr.size(); ++i)
         r += arr[i];
     return r;
 }
