@@ -8,5 +8,5 @@ d:
   - dmd-beta
   - ldc-beta
 script:
-  - cd tests && dub test
+  - cd tests && mkdir -p build && dub test
 
