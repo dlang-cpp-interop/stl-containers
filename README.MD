@@ -5,3 +5,12 @@ https://github.com/dlang/druntime/pull/2448
 https://github.com/dlang/druntime/pull/2456
 
 https://github.com/dlang/druntime/pull/2310
+
+
+TODO:
+
+1. Travis Windows environment does not have a D compiler by default so it needs to be installed in the .travis.yml config file
+2. #include for size_t on Linux
+3. implementation for various containers on Linux not yet done/finished
+4. implement unordered map, set
+5. it's not really STL, but boost::optional
