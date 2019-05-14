@@ -7,6 +7,9 @@ d:
   - ldc-latest-ci
   - dmd-beta
   - ldc-beta
+os:
+  - windows
+  - linux
 script:
   - cd tests && mkdir -p build && dub test
 
