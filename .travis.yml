@@ -7,9 +7,13 @@ d:
   - ldc-latest-ci
   - dmd-beta
   - ldc-beta
-os:
-  - windows
-  - linux
+
+matrix:
+  include:
+    - os: windows
+    - os: linux
+      dist: bionic
+
 script:
   - cd tests && mkdir -p build && dub test
 
