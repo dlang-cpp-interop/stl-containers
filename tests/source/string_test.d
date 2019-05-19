@@ -8,24 +8,24 @@ unittest
 {
     version(Windows)
     {
-	    std_string str = std_string("Hello");
+        std_string str = std_string("Hello");
 
-	    assert(str.size == 5);
-	    assert(str.length == 5);
-	    assert(str.empty == false);
+        assert(str.size == 5);
+        assert(str.length == 5);
+        assert(str.empty == false);
 
-	    assert(sumOfElements_val(str) == 1000);//1500);
-	    assert(sumOfElements_ref(str) == 500);
+        assert(sumOfElements_val(str) == 1000);//1500);
+        assert(sumOfElements_ref(str) == 500);
 
-	    std_string str2 = std_string(Default);
-	    assert(str2.size == 0);
-	    assert(str2.length == 0);
-	    assert(str2.empty == true);
-	    assert(str2[] == []);
+        std_string str2 = std_string(Default);
+        assert(str2.size == 0);
+        assert(str2.length == 0);
+        assert(str2.empty == true);
+        assert(str2[] == []);
     }
     else
     {
-	    pragma(msg, "std.string implementation not yet done for linux - gcc/clang");
+        pragma(msg, "std.string implementation not yet done for linux - gcc/clang");
     }
 }
 
