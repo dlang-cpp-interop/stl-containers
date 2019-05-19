@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{a4c46bc9-d375-4d8d-8d0b-6cd0fe74b17c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{d578ded7-ebff-4e81-b765-438a66643213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\core">
+      <UniqueIdentifier>{a820569a-77d6-4840-b843-305038b3a754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\core\experimental">
+      <UniqueIdentifier>{59b29250-0015-4daa-a7c7-003f66079d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\core\experimental\stdcpp">
+      <UniqueIdentifier>{20cbbde5-b579-4924-8f4b-57604923a750}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\cpp">
+      <UniqueIdentifier>{a9011a74-8ed1-468b-8f84-12a168b8e11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\source">
+      <UniqueIdentifier>{fd139e1b-2488-4f18-bf75-9326913afd25}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <DCompile Include="source\core\experimental\stdcpp\allocator.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\array.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\exception.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\new_.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\string.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\string_view.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\type_traits.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\typeinfo.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\vector.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="source\core\experimental\stdcpp\xutility.d">
+      <Filter>source\core\experimental\stdcpp</Filter>
+    </DCompile>
+    <DCompile Include="tests\source\string_test.d">
+      <Filter>tests\source</Filter>
+    </DCompile>
+    <DCompile Include="tests\source\vector_test.d">
+      <Filter>tests\source</Filter>
+    </DCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tests\cpp\string_cpp.cpp">
+      <Filter>tests\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\cpp\vector_cpp.cpp">
+      <Filter>tests\cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".travis.yml" />
+    <None Include="dub.sdl" />
+    <None Include="README.MD" />
+  </ItemGroup>
+</Project>
