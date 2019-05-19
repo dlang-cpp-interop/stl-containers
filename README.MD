@@ -1,4 +1,6 @@
-dmd [![Build Status](https://travis-ci.org/dlang-cpp-interop/stl-containers.svg?branch=master)](https://travis-ci.org/dlang-cpp-interop/stl-containers)
+travis - linux [![Build Status](https://travis-ci.org/dlang-cpp-interop/stl-containers.svg?branch=master)](https://travis-ci.org/dlang-cpp-interop/stl-containers)
+
+appveyor - windows [![Build status](https://ci.appveyor.com/api/projects/status/yrp0q22grqefvpcn/branch/master?svg=true)](https://ci.appveyor.com/project/LaeethIsharc/stl-containers/branch/master)
 
 https://github.com/dlang/druntime/pull/2448
 
