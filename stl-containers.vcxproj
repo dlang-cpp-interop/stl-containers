@@ -45,11 +45,19 @@
     <DCompile Include="source\core\experimental\stdcpp\type_traits.d" />
     <DCompile Include="source\core\experimental\stdcpp\vector.d" />
     <DCompile Include="source\core\experimental\stdcpp\xutility.d" />
+    <DCompile Include="tests\source\allocator_test.d" />
+    <DCompile Include="tests\source\array_test.d" />
+    <DCompile Include="tests\source\new_test.d" />
     <DCompile Include="tests\source\string_test.d" />
+    <DCompile Include="tests\source\string_view_test.d" />
     <DCompile Include="tests\source\vector_test.d" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tests\cpp\allocator_cpp.cpp" />
+    <ClCompile Include="tests\cpp\array_cpp.cpp" />
+    <ClCompile Include="tests\cpp\new_cpp.cpp" />
     <ClCompile Include="tests\cpp\string_cpp.cpp" />
+    <ClCompile Include="tests\cpp\string_view_cpp.cpp" />
     <ClCompile Include="tests\cpp\vector_cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +194,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <DCompile>
       <CRuntimeLibrary>MultiThreadedDebug</CRuntimeLibrary>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -205,6 +217,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -218,6 +231,9 @@
     <DCompile>
       <Inliner>true</Inliner>
       <DebugCode>Release</DebugCode>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -228,9 +244,13 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <DCompile>
       <CRuntimeLibrary>MultiThreadedDebug</CRuntimeLibrary>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -247,6 +267,7 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -260,6 +281,9 @@
     <DCompile>
       <Inliner>true</Inliner>
       <DebugCode>Release</DebugCode>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LDC|Win32'">
@@ -270,9 +294,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <DCompile>
       <CRuntimeLibrary>MultiThreadedDebug</CRuntimeLibrary>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -289,6 +317,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -302,6 +331,9 @@
     <DCompile>
       <Inliner>true</Inliner>
       <DebugCode>Release</DebugCode>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LDC|x64'">
@@ -312,9 +344,13 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <DCompile>
       <CRuntimeLibrary>MultiThreadedDebug</CRuntimeLibrary>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -331,6 +367,7 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -344,6 +381,9 @@
     <DCompile>
       <Inliner>true</Inliner>
       <DebugCode>Release</DebugCode>
+      <Unittest>true</Unittest>
+      <Main>true</Main>
+      <AdditionalOptions>-extern-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </DCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

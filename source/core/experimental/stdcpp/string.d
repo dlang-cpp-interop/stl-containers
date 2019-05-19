@@ -140,7 +140,7 @@ extern(D):
 //    ref basic_string insert(size_type pos, const(T)* s) nothrow                         { assert(s); return insert(pos, s, strlen(s)); }
 //    ref basic_string insert(size_type pos, const(T)* s, size_type n) nothrow @trusted;
 //    ref basic_string insert(size_type pos, size_type n, T c);
-//    extern(D) ref basic_string insert(size_type pos, const(T)[] s) nothrow @safe        { insert(pos, &s[0], s.length); return this; }
+//    ref basic_string insert(size_type pos, const(T)[] s) nothrow @safe        { insert(pos, &s[0], s.length); return this; }
 
     ///
     ref basic_string erase(size_type pos = 0) // TODO: bounds-check
