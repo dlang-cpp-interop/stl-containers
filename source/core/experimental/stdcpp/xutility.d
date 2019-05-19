@@ -31,12 +31,12 @@ extern(C++, "std"):
 
 version (CppRuntime_Microsoft)
 {
-    import core.stdcpp.type_traits : is_empty;
+    import core.experimental.stdcpp.type_traits : is_empty;
 
     // Client code can mixin the set of MSVC linker directives
     mixin template MSVCLinkDirectives(bool failMismatch = false)
     {
-        import core.stdcpp.xutility : __CXXLIB__, _ITERATOR_DEBUG_LEVEL;
+        import core.experimental.stdcpp.xutility : __CXXLIB__, _ITERATOR_DEBUG_LEVEL;
 
         static if (__CXXLIB__ == "libcmtd")
         {
@@ -144,7 +144,7 @@ package:
 }
 else version (CppRuntime_Clang)
 {
-    import core.stdcpp.type_traits : is_empty;
+    import core.experimental.stdcpp.type_traits : is_empty;
 
     extern (C++, class) struct __compressed_pair(_T1, _T2)
     {

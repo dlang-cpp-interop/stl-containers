@@ -97,7 +97,7 @@ else version (CppRuntime_Microsoft)
 }
 else version (CppRuntime_Gcc)
 {
-    import core.stdcpp.exception;
+    import core.experimental.stdcpp.exception;
 
     extern (C++, "__cxxabiv1")
     {

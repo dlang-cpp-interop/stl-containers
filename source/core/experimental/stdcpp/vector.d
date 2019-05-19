@@ -116,8 +116,7 @@ extern(D):
         extern(D) ref        T at(size_type i) @trusted @nogc                       { if (size() <= i) _Xran(); return _Get_data()._Myfirst[i]; }
         extern(D) ref const(T) at(size_type i) const @trusted @nogc                 { if (size() <= i) _Xran(); return _Get_data()._Myfirst[i]; }
 
-        extern(D)        T[] as_array() nothrow @trusted @nogc                      { return _Get_data()._Myfirst[0 .. size()]; }
-        extern(D) const(T)[] as_array() const nothrow @trusted @nogc                { return _Get_data()._Myfirst[0 .. size()]; }
+        extern(D) inout(T)[] as_array() inout @trusted @nogc                        { return _Get_data()._Myfirst[0 .. size()]; }
 
         extern(D) this(DefaultConstruct)
         {

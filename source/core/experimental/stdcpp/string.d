@@ -253,7 +253,7 @@ extern(D):
         }
 
     private:
-        import core.stdcpp.xutility : MSVCLinkDirectives;
+        import core.experimental.stdcpp.xutility : MSVCLinkDirectives;
 
         // Make sure the object files wont link against mismatching objects
         mixin MSVCLinkDirectives!true;
@@ -469,7 +469,7 @@ extern(D):
             }
 
         private:
-            import core.stdcpp.type_traits : is_empty;
+            import core.experimental.stdcpp.type_traits : is_empty;
 
             version (__GTHREADS)
             {
@@ -756,7 +756,7 @@ extern(D):
 
         private:
 //            import core.exception : RangeError;
-            import core.stdcpp.type_traits : is_empty;
+            import core.experimental.stdcpp.type_traits : is_empty;
 
             static if (!is_empty!allocator_type.value)
                 allocator_type _M_Alloc;
@@ -1054,7 +1054,7 @@ extern(D):
 
     private:
 //        import core.exception : RangeError;
-        import core.stdcpp.xutility : __compressed_pair;
+        import core.experimental.stdcpp.xutility : __compressed_pair;
 
         enum __alignment = 16;
 
@@ -1283,7 +1283,7 @@ private:
 private:
 version (CppRuntime_Microsoft)
 {
-    import core.stdcpp.xutility : _ITERATOR_DEBUG_LEVEL;
+    import core.experimental.stdcpp.xutility : _ITERATOR_DEBUG_LEVEL;
 extern(C++, "std"):
 
     extern (C++) struct _String_base_types(_Elem, _Alloc)
@@ -1294,7 +1294,7 @@ extern(C++, "std"):
 
     extern (C++, class) struct _String_alloc(_Alloc_types)
     {
-        import core.stdcpp.xutility : _Compressed_pair;
+        import core.experimental.stdcpp.xutility : _Compressed_pair;
 
         alias Ty = _Alloc_types.Ty;
         alias Alloc = _Alloc_types.Alloc;
@@ -1314,8 +1314,8 @@ extern(C++, "std"):
 
     extern (C++, class) struct _String_val(T)
     {
-        import core.stdcpp.xutility : _Container_base;
-        import core.stdcpp.type_traits : is_empty;
+        import core.experimental.stdcpp.xutility : _Container_base;
+        import core.experimental.stdcpp.type_traits : is_empty;
 
         enum _BUF_SIZE = 16 / T.sizeof < 1 ? 1 : 16 / T.sizeof;
         enum _ALLOC_MASK = T.sizeof <= 1 ? 15 : T.sizeof <= 2 ? 7 : T.sizeof <= 4 ? 3 : T.sizeof <= 8 ? 1 : 0;
