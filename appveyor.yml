@@ -22,36 +22,6 @@ environment:
   - DC: dmd
     DVersion: 2.076.1
     arch: x64
-  - DC: dmd
-    DVersion: 2.075.1
-    arch: x64
-  - DC: dmd
-    DVersion: 2.074.1
-    arch: x64
-  - DC: dmd
-    DVersion: 2.073.2
-    arch: x64
-  - DC: dmd
-    DVersion: 2.072.2
-    arch: x64
-  - DC: dmd
-    DVersion: 2.071.2
-    arch: x64
-  - DC: dmd
-    DVersion: 2.070.2
-    arch: x64
-  - DC: dmd
-    DVersion: 2.069.2
-    arch: x64
-  - DC: dmd
-    DVersion: 2.068.2
-    arch: x64
-  - DC: dmd
-    DVersion: 2.067.1
-    arch: x64
-  - DC: dmd
-    DVersion: 2.066.0
-    arch: x64
   - DC: ldc
     DVersion: 1.10.0
     arch: x64
@@ -67,34 +37,6 @@ environment:
   - DC: ldc
     DVersion: 1.7.0
     arch: x64
-  - DC: ldc
-    DVersion: 1.6.0
-    arch: x64
-  - DC: ldc
-    DVersion: 1.5.0
-    arch: x64
-  - DC: ldc
-    DVersion: 1.4.0
-    arch: x64
-  - DC: ldc
-    DVersion: 1.3.0
-    arch: x64
-  - DC: ldc
-    DVersion: 1.2.0
-    arch: x64
-  - DC: ldc
-    DVersion: 1.1.0
-    arch: x64
-  - DC: ldc
-    DVersion: 1.0.0
-    arch: x64
-matrix:
-  allow_failures:
-    # I'm getting weird occasional errors of...
-    #    LINK : fatal error LNK1104: cannot open file 'shell32.lib'
-    # ...just with this compiler version, and only on Windows/AppVeyor.
-    - DC: dmd
-      DVersion: 2.068.2
 
 skip_tags: true
 
@@ -221,4 +163,4 @@ test_script:
  - echo %DMD%
  - echo %PATH%
  - '%DC% --help'
- - dub test --arch=%Darch% --compiler=%DC%
+ - cd tests && dub test --arch=%Darch% --compiler=%DC%
