@@ -32,9 +32,9 @@ extern(C++, "std"):
 
 extern(C++, class) struct vector(T, Alloc = allocator!T)
 {
+    import core.lifetime;
     static assert(!is(T == bool), "vector!bool not supported!");
 extern(D):
-@nogc:
 
     ///
     alias size_type = size_t;
@@ -88,12 +88,17 @@ extern(D):
 //    void resize(size_type n, T c);
 //    void reserve(size_type n = 0) @trusted @nogc;
 //    void shrink_to_fit();
-//
-//    // Modifiers
-//    void push_back(ref const(T) _);
-////    void push_back(const(T) el) { push_back(el); } // forwards to ref version
-//
-//    void pop_back();
+
+//    ///
+//    ref basic_string opOpAssign(string op : "~")(const(T)[] str)            { return append(str); }
+    ///
+    ref vector opOpAssign(string op : "~")(auto ref T item)           { push_back(forward!item); return this; }
+
+    // Modifiers
+    void push_back(U)(auto ref U element)
+    {
+        emplace_back(forward!element);
+    }
 
     version (CppRuntime_Microsoft)
     {
@@ -102,47 +107,49 @@ extern(D):
         //----------------------------------------------------------------------------------
 
         ///
-        this(DefaultConstruct)
-        {
-            _Alloc_proxy();
-        }
-
+        this(DefaultConstruct)                                              { _Alloc_proxy(); }
         ///
-        this(this)
+        this(size_t count)                                                  { T def; this(count, def); }
+        ///
+        this(size_t count, ref T val)
         {
-            // we meed a compatible postblit
             _Alloc_proxy();
-
-            size_t len = size(); // the alloc len should probably keep a few in excess? (check the MS implementation)
-            pointer newAlloc = _Getal().allocate(len);
-
-            newAlloc[0 .. len] = _Get_data()._Myfirst[0 .. len];
-
-            _Get_data()._Myfirst = newAlloc;
-            _Get_data()._Mylast = newAlloc + len;
-            _Get_data()._Myend = newAlloc + len;
+            _Buy(count);
+            scope(failure) _Tidy();
+            for (size_t i = 0; i < count; ++i)
+                emplace(&_Get_data()._Myfirst[i], val);
+            _Get_data()._Mylast = _Get_data()._Myfirst + count;
         }
-
 //        ///
-//        this(DefaultConstruct)                                              { _Alloc_proxy(); _Tidy_init(); }
-//        ///
-//        this(const(T)[] str)                                                { _Alloc_proxy(); _Tidy_init(); assign(str); }
-//        ///
-//        this(const(T)[] str, ref const(allocator_type) al)                  { _Alloc_proxy(); _AssignAllocator(al); _Tidy_init(); assign(str); }
-//        ///
-//        this(this)
+//        this(Range)(Range r)
+////            if (isInputRange!Range && !isInfinite!Range && (hasLength!Range || isForwardRange!Range)) // wtf phobos?!
 //        {
 //            _Alloc_proxy();
-//            if (_Get_data()._IsAllocated())
+//            static if (false) // hasLength...
 //            {
-//                T[] _Str = _Get_data()._Mystr;
-//                _Tidy_init();
-//                assign(_Str);
+//                // reserve and copy elements
+//            }
+//            else
+//            {
+//                // use a push_back loop
 //            }
 //        }
 
         ///
-//        ~this()                                                             { assert(0); }
+        this(this)
+        {
+            _Alloc_proxy();
+            size_t len = size(); // the alloc len should probably keep a few in excess? (check the MS implementation)
+            T* src = _Get_data()._Myfirst;
+            _Buy(len);
+            scope(failure) _Tidy();
+            for (size_t i = 0; i < len; ++i)
+                emplace(&_Get_data()._Myfirst[i], src[i]);
+            _Get_data()._Mylast = _Get_data()._Myfirst + len;
+        }
+
+        ///
+        ~this()                                                             { _Tidy(); }
 
         ///
         ref inout(Alloc) get_allocator() inout                              { return _Getal(); }
@@ -163,6 +170,29 @@ extern(D):
         ///
         ref inout(T) at(size_type i) inout @trusted @nogc                   { return _Get_data()._Myfirst[0 .. size()][i]; }
 
+        ///
+        ref T emplace_back(Args...)(auto ref Args args)
+        {
+            if (_Has_unused_capacity())
+            {
+                emplace(_Get_data()._Mylast, forward!args);
+                _Orphan_range(_Get_data()._Mylast, _Get_data()._Mylast);
+                return *_Get_data()._Mylast++;
+            }
+            return *_Emplace_reallocate(_Get_data()._Mylast, forward!args);
+        }
+
+        void pop_back()
+		{
+            static if (_ITERATOR_DEBUG_LEVEL == 2)
+            {
+                assert(!empty(), "vector empty before pop");
+                _Orphan_range(_Get_data()._Mylast - 1, _Get_data()._Mylast);
+            }
+            destroy!true(_Get_data()._Mylast[-1]);
+            --_Get_data()._Mylast;
+		}
+
     private:
         import core.experimental.stdcpp.xutility : MSVCLinkDirectives;
 
@@ -181,12 +211,155 @@ extern(D):
                 _Base._Alloc_proxy();
         }
 
-        // extern to functions that we are sure will be instantiated
-//        void _Destroy(pointer _First, pointer _Last) nothrow @trusted @nogc;
-//        size_type _Grow_to(size_type _Count) const nothrow @trusted @nogc;
-//        void _Reallocate(size_type _Count) nothrow @trusted @nogc;
-//        void _Reserve(size_type _Count) nothrow @trusted @nogc;
-//        void _Tidy() nothrow @trusted @nogc;
+        void _AssignAllocator(ref const(allocator_type) al) nothrow
+        {
+            static if (_Base._Mypair._HasFirst)
+                _Getal() = al;
+        }
+
+        bool _Buy(size_type _Newcapacity) @trusted @nogc
+		{
+            _Get_data()._Myfirst = null;
+            _Get_data()._Mylast = null;
+            _Get_data()._Myend = null;
+
+            if (_Newcapacity == 0)
+                return false;
+
+            // TODO: how to handle this in D? kinda like a range exception...
+//            if (_Newcapacity > max_size())
+//                _Xlength();
+
+            _Get_data()._Myfirst = _Getal().allocate(_Newcapacity);
+            _Get_data()._Mylast = _Get_data()._Myfirst;
+            _Get_data()._Myend = _Get_data()._Myfirst + _Newcapacity;
+
+            return true;
+		}
+
+        void _Destroy(pointer _First, pointer _Last)
+        {
+            for (auto i = _Get_data()._Myfirst; i != _Get_data()._Mylast; ++i)
+                destroy!true(*i);
+        }
+
+        void _Tidy()
+        {
+            _Base._Orphan_all();
+            if (_Get_data()._Myfirst)
+			{
+                _Destroy(_Get_data()._Myfirst, _Get_data()._Mylast);
+                _Getal().deallocate(_Get_data()._Myfirst, capacity());
+                _Get_data()._Myfirst = null;
+                _Get_data()._Mylast = null;
+                _Get_data()._Myend = null;
+			}
+        }
+
+        size_type _Unused_capacity() const pure nothrow @trusted @nogc
+		{
+            return _Get_data()._Myend - _Get_data()._Mylast;
+		}
+
+        bool _Has_unused_capacity() const pure nothrow @trusted @nogc
+		{
+            return _Get_data()._Myend != _Get_data()._Mylast;
+		}
+
+        pointer _Emplace_reallocate(_Valty...)(const pointer _Whereptr, auto ref _Valty _Val)
+		{
+            const size_type _Whereoff = _Whereptr - _Get_data()._Myfirst;
+            const size_type _Oldsize = size();
+
+            // TODO: what should we do in D? kinda like a range overflow?
+//            if (_Oldsize == max_size())
+//                _Xlength();
+
+            const size_type _Newsize = _Oldsize + 1;
+            const size_type _Newcapacity = _Calculate_growth(_Newsize);
+
+            pointer _Newvec = _Getal().allocate(_Newcapacity);
+            pointer _Constructed_last = _Newvec + _Whereoff + 1;
+            pointer _Constructed_first = _Constructed_last;
+
+            try
+            {
+                emplace(_Newvec + _Whereoff, forward!_Val);
+                _Constructed_first = _Newvec + _Whereoff;
+                for (size_t i = _Whereoff; i > 0; )
+                {
+                    --i;
+                    _Get_data()._Myfirst[i].moveEmplace(_Newvec[i]);
+                    _Constructed_first = _Newvec + i;
+                }
+            }
+            catch (Throwable e)
+            {
+                _Destroy(_Constructed_first, _Constructed_last);
+                _Getal().deallocate(_Newvec, _Newcapacity);
+                throw e;
+            }
+
+            _Change_array(_Newvec, _Newsize, _Newcapacity);
+            return _Get_data()._Myfirst + _Whereoff;
+		}
+
+        void _Change_array(pointer _Newvec, const size_type _Newsize, const size_type _Newcapacity)
+		{
+            _Base._Orphan_all();
+
+            if (_Get_data()._Myfirst != null)
+			{
+                _Destroy(_Get_data()._Myfirst, _Get_data()._Mylast);
+                _Getal().deallocate(_Get_data()._Myfirst, capacity());
+			}
+
+            _Get_data()._Myfirst = _Newvec;
+            _Get_data()._Mylast = _Newvec + _Newsize;
+            _Get_data()._Myend = _Newvec + _Newcapacity;
+		}
+
+        size_type _Calculate_growth(const size_type _Newsize) const pure nothrow @nogc @safe
+		{
+            const size_type _Oldcapacity = capacity();
+            if (_Oldcapacity > max_size() - _Oldcapacity/2)
+                return _Newsize;
+            const size_type _Geometric = _Oldcapacity + _Oldcapacity/2;
+            if (_Geometric < _Newsize)
+                return _Newsize;
+            return _Geometric;
+		}
+
+        static if (_ITERATOR_DEBUG_LEVEL == 2)
+        {
+            void _Orphan_range(pointer _First, pointer _Last) const
+		    {
+//                assert(false, "TODO");
+//                _Lockit _Lock(_LOCK_DEBUG);
+//
+//                const_iterator ** _Pnext = reinterpret_cast<const_iterator **>(this->_Getpfirst());
+//
+//                if (_Pnext)
+//			    {
+//                    while (*_Pnext)
+//				    {
+//                        if ((*_Pnext)->_Ptr < _First || _Last < (*_Pnext)->_Ptr)
+//					    {	// skip the iterator
+//                            _Pnext = reinterpret_cast<const_iterator **>((*_Pnext)->_Getpnext());
+//					    }
+//                        else
+//					    {	// orphan the iterator
+//                            (*_Pnext)->_Clrcont();
+//                            *_Pnext = *reinterpret_cast<const_iterator **>((*_Pnext)->_Getpnext());
+//					    }
+//				    }
+//			    }
+		    }
+        }
+        else
+        {
+            void _Orphan_range(pointer, pointer) const {}
+        }
 
         _Vector_alloc!(_Vec_base_types!(T, Alloc)) _Base;
     }
@@ -212,6 +385,7 @@ private:
 
 
 // platform detail
+private:
 version (CppRuntime_Microsoft)
 {
     import core.experimental.stdcpp.xutility : _ITERATOR_DEBUG_LEVEL;
