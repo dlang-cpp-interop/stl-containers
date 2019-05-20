@@ -138,6 +138,15 @@ install:
             }
         }
   - ps: SetUpRDMD
+  - ps: function InstallCmakeD
+        {
+                @tryUrl = @("https://github.com/dcarp/cmake-d/archive/master.zip");
+                Invoke-WebRequest $cmakeUrl -OutFile "C:\dmd2\cmake-master.zip";
+                pushd C:\\;
+                7z x -ocmaked cmake-master.zip;
+                popd;
+        }
+  - ps: InstallCmakeD
   - set PATH=%PATH%;c:\rdmd-dmd\dmd2\windows\bin
 
 before_build:
