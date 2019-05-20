@@ -9,6 +9,10 @@ https://github.com/dlang/druntime/pull/2456
 https://github.com/dlang/druntime/pull/2310
 
 
+STATUS:
+
+* almost builds on Windows - it just needs to know where stdc++ can be found
+
 TODO:
 
 1. implementation for various containers on Linux not yet done/finished
@@ -16,3 +20,4 @@ TODO:
 3. implement unordered map, set
 4. it's not really STL, but boost::optional
 5. add builds for osx/bsd/android
+
