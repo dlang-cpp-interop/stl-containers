@@ -165,6 +165,7 @@ test_script:
  - '%DC% --help'
  - if not exist "tests\build" mkdir tests\build
  - dub add-local .
+ - msbuild.exe stl-containers.sln
  - pushd tests
  - dub test --arch=%Darch% --compiler=%DC% -v
  - dub test --arch=%Darch% --compiler=%DC% -v -c windows-debug -b debug
