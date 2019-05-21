@@ -17,7 +17,6 @@ TODO:
 
 1. implementation for various containers on Linux not yet done/finished
 2. osx, freebsd impl and build not done at all I think
-3. implement unordered map, set
-4. it's not really STL, but boost::optional
+3. implement unordered map, std::optional
 5. add builds for osx/bsd/android
 
