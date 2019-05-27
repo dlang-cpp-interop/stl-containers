@@ -1,3 +1,4 @@
+/*
 #include <optional>
 
 extern int opt_refCount;
@@ -51,3 +52,4 @@ int callC_val(bool set, std::optional<int> a1, const std::optional<int>& a2,
 
     return fromC_val(set, a1, a2, a3, a4, a5, a6);
 }
+*/
