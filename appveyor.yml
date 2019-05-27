@@ -139,7 +139,14 @@ install:
         }
   - ps: SetUpRDMD
   - set PATH=%PATH%;c:\rdmd-dmd\dmd2\windows\bin
-
+  - ps: function InstallVisualD
+        {
+          Invoke-WebRequest "https://github.com/dlang/visuald/releases/download/v0.49.2/VisualD-v0.49.2.exe" -OutFile "C:\visuald.exe";
+          pushd C:\\;
+        }
+        rem how do you make it install non-interactively?
+        visuald
+  - ps: InstallVisualD
 before_build:
   - ps: if($env:arch -eq "x86"){
             $env:compilersetupargs = "x86";
