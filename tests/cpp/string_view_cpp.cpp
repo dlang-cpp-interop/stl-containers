@@ -1,3 +1,4 @@
+/*
 #include <string_view>
 
 int fromC_val(std::string_view);
@@ -15,3 +16,4 @@ int sumOfElements_val(std::string_view str)
 {
     return sumOfElements_ref(str) + fromC_ref(str) + fromC_val(str);
 }
+*/
