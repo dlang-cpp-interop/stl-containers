@@ -1,3 +1,4 @@
+/*
 import core.stdcpp.string_view;
 
 unittest
@@ -48,3 +49,4 @@ int fromC_ref(ref const(string_view) str)
         r += e;
     return r;
 }
+*/
